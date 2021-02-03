@@ -6,18 +6,14 @@ RUN apk add --no-cache curl autoconf automake libtool pkgconf build-base \
   gengetopt libwebsockets-dev git
 
 # usrsctp
-ARG USRSCTP_VERSION=4069ba5b9587bd7c99d964756b527d6259f0d3da
-
+ARG USRSCTP_VERSION=2.2.0
 RUN cd /tmp && \
-    git clone https://github.com/sctplab/usrsctp && \
-    cd usrsctp && \
-    git checkout $USRSCTP_VERSION && \
-    ./bootstrap && \
-    ./configure --prefix=/usr && \
+    curl -L https://github.com/cisco/libsrtp/archive/v$USRSCTP_VERSION.tar.gz | tar -xz && \
+    cd libsrtp-$USRSCTP_VERSION && \
+    ./configure --prefix=/usr --enable-openssl && \
     make && make install
 
 # JANUS
-
 ARG JANUS_VERSION=0.9.2
 RUN mkdir -p /usr/src/janus && \
     cd /usr/src/janus && \
