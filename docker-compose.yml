@@ -20,6 +20,8 @@ services:
     restart: unless-stopped
   janus:
     build: docker/janus
+    volumes:
+      - /opt/janus/etc/janus:/usr/local/etc/janus
     command: ["janus", "--full-trickle"]
     network_mode: host
     restart: unless-stopped
